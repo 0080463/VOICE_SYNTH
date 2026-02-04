@@ -821,6 +821,11 @@ function setVersion(v) {
         });
         const envStat = document.getElementById('stat11');
         if (envStat) envStat.textContent = 'Neural Ready';
+        const mode11 = document.getElementById('mode11');
+        if (mode11) mode11.value = 'speech';
+        const voice11 = document.getElementById('voice11');
+        if (voice11) voice11.value = 'v11_neural_prime';
+        setEnvironment11('studio');
     }
 }
 
