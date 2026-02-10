@@ -74,7 +74,18 @@ const VOICES = {
     v10_neural_f: { pitch: 210, formant: 1.18, vibrato: 5.2 },
     v10_actor: { pitch: 130, formant: 1.05, vibrato: 4.8 },
     v10_streamer: { pitch: 140, formant: 1.08, vibrato: 6 },
-    v10_asmr: { pitch: 170, formant: 1.12, vibrato: 3.5, whisper: true }
+    v10_asmr: { pitch: 170, formant: 1.12, vibrato: 3.5, whisper: true },
+    // v11.0 Neural HyperReal
+    v11_neural_prime: { pitch: 126, formant: 1.03, vibrato: 4.6 },
+    v11_neural_female: { pitch: 220, formant: 1.22, vibrato: 5.6 },
+    v11_neural_male: { pitch: 112, formant: 0.98, vibrato: 4.2 },
+    v11_neural_cinematic: { pitch: 98, formant: 0.92, vibrato: 3.6, rough: true },
+    v11_neural_emotive: { pitch: 165, formant: 1.15, vibrato: 6.2 },
+    v11_neural_idol: { pitch: 250, formant: 1.3, vibrato: 7.2 },
+    v11_neural_duo: { pitch: 135, formant: 1.08, vibrato: 5.1 },
+    v11_neural_whisper: { pitch: 175, formant: 1.1, vibrato: 3.4, whisper: true },
+    v11_neural_radiant: { pitch: 145, formant: 1.12, vibrato: 5.8 },
+    v11_neural_astral: { pitch: 105, formant: 0.96, vibrato: 4.0 }
 };
 
 const VOWELS = { 'А': { f1: 800, f2: 1200, f3: 2600 }, 'О': { f1: 500, f2: 850, f3: 2550 }, 'У': { f1: 320, f2: 650, f3: 2400 }, 'Э': { f1: 550, f2: 1850, f3: 2600 }, 'И': { f1: 280, f2: 2300, f3: 3000 }, 'Ы': { f1: 330, f2: 1550, f3: 2550 } };
@@ -263,7 +274,7 @@ function createEffects(ctx) {
 }
 
 function getEffectValues() {
-    const s = currentVersion === 'v1' ? '1' : currentVersion === 'v15' ? '15' : currentVersion === 'v2' ? '2' : currentVersion === 'v35' ? '35' : currentVersion === 'v4' ? '4' : currentVersion === 'v5' ? '5' : currentVersion === 'v6' ? '6' : currentVersion === 'v65' ? '65' : currentVersion === 'v7' ? '7' : currentVersion === 'v8' ? '8' : currentVersion === 'v9' ? '9' : currentVersion === 'v95' ? '95' : currentVersion === 'v10' ? '10' : '3';
+    const s = currentVersion === 'v1' ? '1' : currentVersion === 'v15' ? '15' : currentVersion === 'v2' ? '2' : currentVersion === 'v35' ? '35' : currentVersion === 'v4' ? '4' : currentVersion === 'v5' ? '5' : currentVersion === 'v6' ? '6' : currentVersion === 'v65' ? '65' : currentVersion === 'v7' ? '7' : currentVersion === 'v8' ? '8' : currentVersion === 'v9' ? '9' : currentVersion === 'v95' ? '95' : currentVersion === 'v10' ? '10' : currentVersion === 'v11' ? '11' : '3';
     return {
         reverb: parseInt(document.getElementById('reverb' + s)?.value || 0) / 100,
         echo: parseInt(document.getElementById('echo' + s)?.value || 0) / 100,
@@ -593,8 +604,9 @@ function getEffectsInput() {
 }
 
 function getEmotionModifiers() {
-    if (currentVersion !== 'v35' && currentVersion !== 'v4' && currentVersion !== 'v5' && currentVersion !== 'v6' && currentVersion !== 'v65' && currentVersion !== 'v7' && currentVersion !== 'v8' && currentVersion !== 'v9' && currentVersion !== 'v95' && currentVersion !== 'v10') return { pitch: 1, speed: 1, volume: 1, whisper: false, vibrato: 1 };
+    if (currentVersion !== 'v35' && currentVersion !== 'v4' && currentVersion !== 'v5' && currentVersion !== 'v6' && currentVersion !== 'v65' && currentVersion !== 'v7' && currentVersion !== 'v8' && currentVersion !== 'v9' && currentVersion !== 'v95' && currentVersion !== 'v10' && currentVersion !== 'v11') return { pitch: 1, speed: 1, volume: 1, whisper: false, vibrato: 1 };
     const emotion = document.getElementById(
+        currentVersion === 'v11' ? 'emotion11' :
         currentVersion === 'v10' ? 'emotion10' :
         currentVersion === 'v95' ? 'emotion95' :
         currentVersion === 'v9' ? 'emotion9' :
@@ -624,15 +636,15 @@ function getEmotionModifiers() {
 }
 
 function getAccentModifiers() {
-    if (currentVersion !== 'v5' && currentVersion !== 'v6' && currentVersion !== 'v65' && currentVersion !== 'v7' && currentVersion !== 'v8' && currentVersion !== 'v9' && currentVersion !== 'v95' && currentVersion !== 'v10') return { pitch: 1, formant: 1, speed: 1, transform: t => t };
-    const accentId = currentVersion === 'v10' ? 'accent10' : currentVersion === 'v95' ? 'accent95' : currentVersion === 'v9' ? 'accent9' : currentVersion === 'v8' ? 'accent8' : currentVersion === 'v7' ? 'accent7' : currentVersion === 'v65' ? 'accent65' : currentVersion === 'v6' ? 'accent6' : 'accent5';
+    if (currentVersion !== 'v5' && currentVersion !== 'v6' && currentVersion !== 'v65' && currentVersion !== 'v7' && currentVersion !== 'v8' && currentVersion !== 'v9' && currentVersion !== 'v95' && currentVersion !== 'v10' && currentVersion !== 'v11') return { pitch: 1, formant: 1, speed: 1, transform: t => t };
+    const accentId = currentVersion === 'v11' ? 'accent11' : currentVersion === 'v10' ? 'accent10' : currentVersion === 'v95' ? 'accent95' : currentVersion === 'v9' ? 'accent9' : currentVersion === 'v8' ? 'accent8' : currentVersion === 'v7' ? 'accent7' : currentVersion === 'v65' ? 'accent65' : currentVersion === 'v6' ? 'accent6' : 'accent5';
     const accent = document.getElementById(accentId)?.value || 'ru';
     return ACCENTS[accent] || ACCENTS.ru;
 }
 
 function applyAccentToText(text) {
-    if (currentVersion !== 'v5' && currentVersion !== 'v6' && currentVersion !== 'v65' && currentVersion !== 'v7' && currentVersion !== 'v8' && currentVersion !== 'v9' && currentVersion !== 'v95' && currentVersion !== 'v10') return text;
-    const accentId = currentVersion === 'v10' ? 'accent10' : currentVersion === 'v95' ? 'accent95' : currentVersion === 'v9' ? 'accent9' : currentVersion === 'v8' ? 'accent8' : currentVersion === 'v7' ? 'accent7' : currentVersion === 'v65' ? 'accent65' : currentVersion === 'v6' ? 'accent6' : 'accent5';
+    if (currentVersion !== 'v5' && currentVersion !== 'v6' && currentVersion !== 'v65' && currentVersion !== 'v7' && currentVersion !== 'v8' && currentVersion !== 'v9' && currentVersion !== 'v95' && currentVersion !== 'v10' && currentVersion !== 'v11') return text;
+    const accentId = currentVersion === 'v11' ? 'accent11' : currentVersion === 'v10' ? 'accent10' : currentVersion === 'v95' ? 'accent95' : currentVersion === 'v9' ? 'accent9' : currentVersion === 'v8' ? 'accent8' : currentVersion === 'v7' ? 'accent7' : currentVersion === 'v65' ? 'accent65' : currentVersion === 'v6' ? 'accent6' : 'accent5';
     const accent = document.getElementById(accentId)?.value || 'ru';
     const accentData = ACCENTS[accent];
     if (accentData && accentData.transform) {
@@ -642,9 +654,9 @@ function applyAccentToText(text) {
 }
 
 function getStyleModifiers() {
-    if (currentVersion !== 'v5' && currentVersion !== 'v6' && currentVersion !== 'v65' && currentVersion !== 'v7' && currentVersion !== 'v8' && currentVersion !== 'v9' && currentVersion !== 'v95' && currentVersion !== 'v10') return { pitch: 1, speed: 1, volume: 1 };
-    if (currentVersion === 'v6' || currentVersion === 'v65' || currentVersion === 'v7' || currentVersion === 'v8' || currentVersion === 'v9' || currentVersion === 'v95' || currentVersion === 'v10') {
-        const modeId = currentVersion === 'v10' ? 'mode10' : currentVersion === 'v95' ? 'mode95' : currentVersion === 'v9' ? 'mode9' : currentVersion === 'v8' ? 'mode8' : currentVersion === 'v7' ? 'mode7' : currentVersion === 'v65' ? 'mode65' : 'mode6';
+    if (currentVersion !== 'v5' && currentVersion !== 'v6' && currentVersion !== 'v65' && currentVersion !== 'v7' && currentVersion !== 'v8' && currentVersion !== 'v9' && currentVersion !== 'v95' && currentVersion !== 'v10' && currentVersion !== 'v11') return { pitch: 1, speed: 1, volume: 1 };
+    if (currentVersion === 'v6' || currentVersion === 'v65' || currentVersion === 'v7' || currentVersion === 'v8' || currentVersion === 'v9' || currentVersion === 'v95' || currentVersion === 'v10' || currentVersion === 'v11') {
+        const modeId = currentVersion === 'v11' ? 'mode11' : currentVersion === 'v10' ? 'mode10' : currentVersion === 'v95' ? 'mode95' : currentVersion === 'v9' ? 'mode9' : currentVersion === 'v8' ? 'mode8' : currentVersion === 'v7' ? 'mode7' : currentVersion === 'v65' ? 'mode65' : 'mode6';
         const mode = document.getElementById(modeId)?.value || 'speech';
         const modes = {
             speech: { pitch: 1, speed: 1, volume: 1 },
@@ -667,6 +679,7 @@ function getStyleModifiers() {
             cinema: { pitch: 0.9, speed: 0.8, volume: 1.25 },
             retro: { pitch: 1.05, speed: 0.95, volume: 0.9 },
             surround: { pitch: 1.0, speed: 0.95, volume: 1.1 },
+            standup: { pitch: 1.15, speed: 1.1, volume: 1.1 },
             slowmo: { pitch: 0.85, speed: 0.55, volume: 0.9 },
             neural: { pitch: 1.05, speed: 0.95, volume: 1.1 },
             emotion: { pitch: 1.1, speed: 0.9, volume: 1.2 },
@@ -782,6 +795,38 @@ function setVersion(v) {
             }
         });
     }
+
+    if (v === 'v11') {
+        const defaults11 = {
+            clarity: 96,
+            humanness: 94,
+            sharpness: 82,
+            smoothness: 80,
+            hdquality: 90,
+            depth: 65,
+            reverb: 22,
+            echo: 12,
+            chorus: 18,
+            spatial: 30,
+            autotune: 10,
+            distortion: 0
+        };
+        Object.entries(defaults11).forEach(([fx, val]) => {
+            const el = document.getElementById(fx + '11');
+            const valEl = document.getElementById(fx + 'Val11');
+            if (el) {
+                el.value = val;
+                if (valEl) valEl.textContent = val + '%';
+            }
+        });
+        const envStat = document.getElementById('stat11');
+        if (envStat) envStat.textContent = 'Neural Ready';
+        const mode11 = document.getElementById('mode11');
+        if (mode11) mode11.value = 'speech';
+        const voice11 = document.getElementById('voice11');
+        if (voice11) voice11.value = 'v11_neural_prime';
+        setEnvironment11('studio');
+    }
 }
 
 const delay = ms => new Promise(r => setTimeout(r, ms));
@@ -802,15 +847,22 @@ async function playVowel(vowel, duration, volume, voice, pitchMod = 1, isStresse
     const ctx = getCtx(), vow = VOWELS[vowel], vc = VOICES[voice] || VOICES.alex;
     if (!vow) return;
 
-    // V10 Neural Logic (AI Prediction)
-    if (currentVersion === 'v10') {
+    // Neural Logic (AI Prediction)
+    let effectiveVolume = volume;
+    if (currentVersion === 'v10' || currentVersion === 'v11') {
         document.body.classList.add('neural-active');
         // Predict prosody based on character code (pseudo-context)
-        const inputVal = vowel.charCodeAt(0) / 1000; 
-        const prediction = neuralNet.predict(inputVal);
-        pitchMod *= prediction.pitchMod;
-        // Neural duration control
-        duration *= prediction.durMod;
+        const inputVal = vowel.charCodeAt(0) / 1000;
+        if (currentVersion === 'v11') {
+            const prediction = neuralNetV11.predict(inputVal);
+            pitchMod *= prediction.pitchMod;
+            duration *= prediction.durMod;
+            effectiveVolume *= prediction.energyMod;
+        } else {
+            const prediction = neuralNet.predict(inputVal);
+            pitchMod *= prediction.pitchMod;
+            duration *= prediction.durMod;
+        }
         visualizeNeuralNet(true);
         setTimeout(() => visualizeNeuralNet(false), duration * 0.8);
     } else {
@@ -841,21 +893,21 @@ async function playVowel(vowel, duration, volume, voice, pitchMod = 1, isStresse
         const noise = ctx.createBufferSource(); noise.buffer = buf;
         [vow.f1, vow.f2].forEach((f, idx) => {
             const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = f * shift; filt.Q.value = 8;
-            const g = ctx.createGain(); g.gain.value = volume * (idx === 0 ? 0.4 : 0.25);
+            const g = ctx.createGain(); g.gain.value = effectiveVolume * (idx === 0 ? 0.4 : 0.25);
             noise.connect(filt); filt.connect(g); g.connect(master);
         });
         const now = ctx.currentTime;
-        master.gain.setValueAtTime(0, now); master.gain.linearRampToValueAtTime(volume * 0.4, now + 0.03);
-        master.gain.setValueAtTime(volume * 0.4, now + dur - 0.03); master.gain.linearRampToValueAtTime(0, now + dur);
+        master.gain.setValueAtTime(0, now); master.gain.linearRampToValueAtTime(effectiveVolume * 0.4, now + 0.03);
+        master.gain.setValueAtTime(effectiveVolume * 0.4, now + dur - 0.03); master.gain.linearRampToValueAtTime(0, now + dur);
         noise.start(); noise.stop(ctx.currentTime + dur);
         await delay(dur * 1000);
         return;
     }
     
     let osc;
-    if (currentVersion === 'v10' && !vc.robot) {
+    if ((currentVersion === 'v10' || currentVersion === 'v11') && !vc.robot) {
         // Use Neural Glottal Pulse for realistic human voice
-        osc = createNeuralSource(ctx, pitch);
+        osc = currentVersion === 'v11' ? createNeuralSourceV11(ctx, pitch) : createNeuralSource(ctx, pitch);
     } else {
         // Standard synthesis for older versions
         osc = ctx.createOscillator(); 
@@ -906,7 +958,7 @@ async function playVowel(vowel, duration, volume, voice, pitchMod = 1, isStresse
         filt.frequency.value = fd.f; 
         filt.Q.value = Math.max(2, fd.q);
         const gain = ctx.createGain(); 
-        gain.gain.value = volume * fd.g;
+        gain.gain.value = effectiveVolume * fd.g;
         osc.connect(filt); filt.connect(gain); gain.connect(master);
     });
     
@@ -916,19 +968,19 @@ async function playVowel(vowel, duration, volume, voice, pitchMod = 1, isStresse
         const attackTime = 0.02 + Math.random() * 0.015;
         const releaseTime = 0.025 + Math.random() * 0.015;
         master.gain.setValueAtTime(0, now);
-        master.gain.linearRampToValueAtTime(volume * (1 + (Math.random() - 0.5) * shimmerAmount), now + attackTime);
+        master.gain.linearRampToValueAtTime(effectiveVolume * (1 + (Math.random() - 0.5) * shimmerAmount), now + attackTime);
         const numPoints = Math.floor(dur / 0.05);
         for (let i = 1; i < numPoints; i++) {
             const t = now + attackTime + (dur - attackTime - releaseTime) * (i / numPoints);
-            const volVariation = volume * (1 + (Math.random() - 0.5) * shimmerAmount * 0.5);
+            const volVariation = effectiveVolume * (1 + (Math.random() - 0.5) * shimmerAmount * 0.5);
             master.gain.linearRampToValueAtTime(volVariation, t);
         }
-        master.gain.linearRampToValueAtTime(volume * 0.8, now + dur - releaseTime);
+        master.gain.linearRampToValueAtTime(effectiveVolume * 0.8, now + dur - releaseTime);
         master.gain.linearRampToValueAtTime(0, now + dur);
     } else {
         master.gain.setValueAtTime(0, now); 
-        master.gain.linearRampToValueAtTime(volume, now + 0.025);
-        master.gain.setValueAtTime(volume, now + dur - 0.03); 
+        master.gain.linearRampToValueAtTime(effectiveVolume, now + 0.025);
+        master.gain.setValueAtTime(effectiveVolume, now + dur - 0.03); 
         master.gain.linearRampToValueAtTime(0, now + dur);
     }
     
@@ -1172,7 +1224,7 @@ async function playBreath(volume) {
 
 async function speak() {
     stop();
-    const s = currentVersion === 'v1' ? '1' : currentVersion === 'v15' ? '15' : currentVersion === 'v2' ? '2' : currentVersion === 'v35' ? '35' : currentVersion === 'v4' ? '4' : currentVersion === 'v5' ? '5' : currentVersion === 'v6' ? '6' : currentVersion === 'v65' ? '65' : currentVersion === 'v7' ? '7' : currentVersion === 'v8' ? '8' : currentVersion === 'v9' ? '9' : currentVersion === 'v95' ? '95' : currentVersion === 'v10' ? '10' : '3';
+    const s = currentVersion === 'v1' ? '1' : currentVersion === 'v15' ? '15' : currentVersion === 'v2' ? '2' : currentVersion === 'v35' ? '35' : currentVersion === 'v4' ? '4' : currentVersion === 'v5' ? '5' : currentVersion === 'v6' ? '6' : currentVersion === 'v65' ? '65' : currentVersion === 'v7' ? '7' : currentVersion === 'v8' ? '8' : currentVersion === 'v9' ? '9' : currentVersion === 'v95' ? '95' : currentVersion === 'v10' ? '10' : currentVersion === 'v11' ? '11' : '3';
     const text = document.getElementById('text' + s).value;
     const emotionMods = getEmotionModifiers();
     const accentMods = getAccentModifiers();
@@ -1189,7 +1241,7 @@ async function speak() {
         console.warn('Unknown voice id:', voice, 'fallback to v3_alex');
     }
     let pitchMult = emotionMods.pitch * accentMods.pitch * styleMods.pitch;
-    if (currentVersion === 'v35' || currentVersion === 'v4' || currentVersion === 'v5' || currentVersion === 'v6' || currentVersion === 'v65' || currentVersion === 'v7' || currentVersion === 'v8' || currentVersion === 'v9' || currentVersion === 'v95' || currentVersion === 'v10') { const ps = document.getElementById('pitch' + s); if (ps) pitchMult *= parseInt(ps.value) / 100; }
+    if (currentVersion === 'v35' || currentVersion === 'v4' || currentVersion === 'v5' || currentVersion === 'v6' || currentVersion === 'v65' || currentVersion === 'v7' || currentVersion === 'v8' || currentVersion === 'v9' || currentVersion === 'v95' || currentVersion === 'v10' || currentVersion === 'v11') { const ps = document.getElementById('pitch' + s); if (ps) pitchMult *= parseInt(ps.value) / 100; }
     if (!text.trim()) return;
     playing = true; stopFlag = false;
     const sentences = splitSentences(text);
@@ -1238,14 +1290,14 @@ async function speak() {
 function stop() {
     stopFlag = true; playing = false; currentEmotion = { pitch: 1, speed: 1, volume: 1, whisper: false, vibrato: 1 };
     document.getElementById('charDisplay').textContent = '_'; document.getElementById('phonemeDisplay').textContent = ''; document.getElementById('statusDisplay').textContent = 'Стоп';
-    ['prog15', 'prog2', 'prog3', 'prog35', 'prog4', 'prog5', 'prog6', 'prog65', 'prog7', 'prog8', 'prog9', 'prog95'].forEach(id => { const el = document.getElementById(id); if (el) el.style.width = '0%'; });
+    ['prog15', 'prog2', 'prog3', 'prog35', 'prog4', 'prog5', 'prog6', 'prog65', 'prog7', 'prog8', 'prog9', 'prog95', 'prog10', 'prog11'].forEach(id => { const el = document.getElementById(id); if (el) el.style.width = '0%'; });
     activeOscillators.forEach(osc => { try { osc.stop(); osc.disconnect(); } catch(e) {} });
     activeOscillators = [];
     resetAudioContext();
 }
 
 // Slider handlers
-['1', '15', '2', '3', '35', '4', '5', '6', '65', '7', '8', '9', '95', '10'].forEach(s => {
+['1', '15', '2', '3', '35', '4', '5', '6', '65', '7', '8', '9', '95', '10', '11'].forEach(s => {
     const sp = document.getElementById('speed' + s), vl = document.getElementById('vol' + s);
     if (sp) sp.oninput = function() { const valEl = document.getElementById('speedVal' + s); if (valEl) valEl.textContent = this.value; };
     if (vl) vl.oninput = function() { const valEl = document.getElementById('volVal' + s); if (valEl) valEl.textContent = this.value + '%'; };
@@ -1291,11 +1343,11 @@ document.addEventListener('keydown', e => {
 
 // ===== DEBUG FUNCTIONS =====
 function getDebugOutput() {
-    const s = currentVersion === 'v35' ? '35' : currentVersion === 'v4' ? '4' : currentVersion === 'v5' ? '5' : currentVersion === 'v6' ? '6' : currentVersion === 'v65' ? '65' : currentVersion === 'v7' ? '7' : currentVersion === 'v8' ? '8' : currentVersion === 'v9' ? '9' : currentVersion === 'v95' ? '95' : currentVersion === 'v10' ? '10' : '3';
+    const s = currentVersion === 'v35' ? '35' : currentVersion === 'v4' ? '4' : currentVersion === 'v5' ? '5' : currentVersion === 'v6' ? '6' : currentVersion === 'v65' ? '65' : currentVersion === 'v7' ? '7' : currentVersion === 'v8' ? '8' : currentVersion === 'v9' ? '9' : currentVersion === 'v95' ? '95' : currentVersion === 'v10' ? '10' : currentVersion === 'v11' ? '11' : '3';
     return document.getElementById('debugOutput' + s);
 }
 function getDebugFreq() {
-    const s = currentVersion === 'v35' ? '35' : currentVersion === 'v4' ? '4' : currentVersion === 'v5' ? '5' : currentVersion === 'v6' ? '6' : currentVersion === 'v65' ? '65' : currentVersion === 'v7' ? '7' : currentVersion === 'v8' ? '8' : currentVersion === 'v9' ? '9' : currentVersion === 'v95' ? '95' : currentVersion === 'v10' ? '10' : '3';
+    const s = currentVersion === 'v35' ? '35' : currentVersion === 'v4' ? '4' : currentVersion === 'v5' ? '5' : currentVersion === 'v6' ? '6' : currentVersion === 'v65' ? '65' : currentVersion === 'v7' ? '7' : currentVersion === 'v8' ? '8' : currentVersion === 'v9' ? '9' : currentVersion === 'v95' ? '95' : currentVersion === 'v10' ? '10' : currentVersion === 'v11' ? '11' : '3';
     return document.getElementById('debugFreq' + s);
 }
 
@@ -1304,7 +1356,7 @@ function testFormants() {
     output.value = '=== ТЕСТ ФОРМАНТ ===\n\n';
     for (const [v, d] of Object.entries(VOWELS)) output.value += v + ': F1=' + d.f1 + 'Hz F2=' + d.f2 + 'Hz F3=' + d.f3 + 'Hz\n';
     (async () => {
-        const s = currentVersion === 'v35' ? '35' : currentVersion === 'v4' ? '4' : currentVersion === 'v5' ? '5' : currentVersion === 'v6' ? '6' : currentVersion === 'v65' ? '65' : currentVersion === 'v7' ? '7' : '3';
+        const s = currentVersion === 'v35' ? '35' : currentVersion === 'v4' ? '4' : currentVersion === 'v5' ? '5' : currentVersion === 'v6' ? '6' : currentVersion === 'v65' ? '65' : currentVersion === 'v7' ? '7' : currentVersion === 'v8' ? '8' : currentVersion === 'v9' ? '9' : currentVersion === 'v95' ? '95' : currentVersion === 'v10' ? '10' : currentVersion === 'v11' ? '11' : '3';
         const voice = document.getElementById('voice' + s)?.value || 'v3_alex';
         for (const vowel of ['А', 'О', 'У', 'Э', 'И', 'Ы']) {
             if (stopFlag) break;
@@ -1318,7 +1370,7 @@ function testFormants() {
 
 function analyzeText() {
     const output = getDebugOutput(); if (!output) return;
-    const s = currentVersion === 'v35' ? '35' : currentVersion === 'v4' ? '4' : currentVersion === 'v5' ? '5' : currentVersion === 'v6' ? '6' : currentVersion === 'v65' ? '65' : currentVersion === 'v7' ? '7' : '3';
+    const s = currentVersion === 'v35' ? '35' : currentVersion === 'v4' ? '4' : currentVersion === 'v5' ? '5' : currentVersion === 'v6' ? '6' : currentVersion === 'v65' ? '65' : currentVersion === 'v7' ? '7' : currentVersion === 'v8' ? '8' : currentVersion === 'v9' ? '9' : currentVersion === 'v95' ? '95' : currentVersion === 'v10' ? '10' : currentVersion === 'v11' ? '11' : '3';
     const text = document.getElementById('text' + s)?.value || '';
     output.value = '=== АНАЛИЗ ТЕКСТА ===\n\nТекст: "' + text + '"\n\nФонемы:\n';
     const phonemes = textToPhonemes(text);
@@ -1330,7 +1382,7 @@ function analyzeText() {
 
 function testVoice() {
     const output = getDebugOutput(); if (!output) return;
-    const s = currentVersion === 'v35' ? '35' : currentVersion === 'v4' ? '4' : currentVersion === 'v5' ? '5' : currentVersion === 'v6' ? '6' : currentVersion === 'v65' ? '65' : currentVersion === 'v7' ? '7' : '3';
+    const s = currentVersion === 'v35' ? '35' : currentVersion === 'v4' ? '4' : currentVersion === 'v5' ? '5' : currentVersion === 'v6' ? '6' : currentVersion === 'v65' ? '65' : currentVersion === 'v7' ? '7' : currentVersion === 'v8' ? '8' : currentVersion === 'v9' ? '9' : currentVersion === 'v95' ? '95' : currentVersion === 'v10' ? '10' : currentVersion === 'v11' ? '11' : '3';
     const voiceId = document.getElementById('voice' + s)?.value || 'v3_alex';
     const v = VOICES[voiceId] || VOICES.v3_alex;
     output.value = '=== ПАРАМЕТРЫ ГОЛОСА ===\n\nID: ' + voiceId + '\nPitch: ' + v.pitch + ' Hz\nFormant: ' + (v.formant || 1.0) + '\nVibrato: ' + (v.vibrato || 'нет') + ' Hz';
@@ -1381,7 +1433,7 @@ function easterEgg() {
 // ===== V6 MEGA FUNCTIONS =====
 async function playSinging() {
     stop();
-    const s = currentVersion === 'v10' ? '10' : currentVersion === 'v95' ? '95' : currentVersion === 'v9' ? '9' : currentVersion === 'v8' ? '8' : currentVersion === 'v7' ? '7' : currentVersion === 'v65' ? '65' : '6';
+    const s = currentVersion === 'v11' ? '11' : currentVersion === 'v10' ? '10' : currentVersion === 'v95' ? '95' : currentVersion === 'v9' ? '9' : currentVersion === 'v8' ? '8' : currentVersion === 'v7' ? '7' : currentVersion === 'v65' ? '65' : '6';
     const text = document.getElementById('text' + s)?.value || 'ЛЯ ЛЯ ЛЯ';
     const voice = document.getElementById('voice' + s)?.value || 'v6_opera_f';
     const volume = parseInt(document.getElementById('vol' + s)?.value || 90) / 100;
@@ -1408,7 +1460,7 @@ async function playSinging() {
 
 async function playRap() {
     stop();
-    const s = currentVersion === 'v10' ? '10' : currentVersion === 'v95' ? '95' : currentVersion === 'v9' ? '9' : currentVersion === 'v8' ? '8' : currentVersion === 'v7' ? '7' : currentVersion === 'v65' ? '65' : '6';
+    const s = currentVersion === 'v11' ? '11' : currentVersion === 'v10' ? '10' : currentVersion === 'v95' ? '95' : currentVersion === 'v9' ? '9' : currentVersion === 'v8' ? '8' : currentVersion === 'v7' ? '7' : currentVersion === 'v65' ? '65' : '6';
     const text = document.getElementById('text' + s)?.value || 'ЙО ЙО ПРИВЕТ';
     const voice = document.getElementById('voice' + s)?.value || 'v6_rapper';
     const volume = parseInt(document.getElementById('vol' + s)?.value || 90) / 100;
@@ -2267,6 +2319,89 @@ async function playCharacter10(type) {
     speak();
 }
 
+// V11 Functions
+function setEnvironment11(scene) {
+    const presets = {
+        studio: { reverb: 18, echo: 8, chorus: 12, spatial: 16, autotune: 8, distortion: 0 },
+        cinema: { reverb: 38, echo: 18, chorus: 20, spatial: 35, autotune: 4, distortion: 0 },
+        broadcast: { reverb: 12, echo: 6, chorus: 10, spatial: 12, autotune: 6, distortion: 0 },
+        lofi: { reverb: 25, echo: 20, chorus: 22, spatial: 18, autotune: 0, distortion: 8 },
+        space: { reverb: 45, echo: 30, chorus: 25, spatial: 45, autotune: 6, distortion: 0 },
+        cathedral: { reverb: 55, echo: 22, chorus: 15, spatial: 40, autotune: 0, distortion: 0 },
+        underwater: { reverb: 35, echo: 18, chorus: 30, spatial: 28, autotune: 0, distortion: 6 },
+        stadium: { reverb: 48, echo: 24, chorus: 20, spatial: 42, autotune: 10, distortion: 0 },
+        forest: { reverb: 20, echo: 12, chorus: 10, spatial: 18, autotune: 0, distortion: 0 },
+        city: { reverb: 16, echo: 14, chorus: 12, spatial: 20, autotune: 6, distortion: 4 },
+        none: { reverb: 0, echo: 0, chorus: 0, spatial: 0, autotune: 0, distortion: 0 }
+    };
+    const settings = presets[scene] || presets.studio;
+    Object.entries(settings).forEach(([fx, val]) => {
+        const el = document.getElementById(fx + '11');
+        const valEl = document.getElementById(fx + 'Val11');
+        if (el) {
+            el.value = val;
+            if (valEl) valEl.textContent = val + '%';
+        }
+    });
+    const stat = document.getElementById('stat11');
+    if (stat) stat.textContent = `Scene: ${scene}`;
+    document.querySelectorAll('.v11-only .env-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.scene === scene);
+    });
+}
+
+function studioMode11() {
+    document.getElementById('mode11').value = 'podcast';
+    document.getElementById('voice11').value = 'v11_neural_prime';
+    document.getElementById('speed11').value = 150;
+    document.getElementById('pitch11').value = 105;
+    setEnvironment11('studio');
+    document.getElementById('stat11').textContent = '🎙️ Studio Mode';
+    speak();
+}
+
+function neuralBoost11() {
+    alert('🧠 Neural Boost+ activated! HyperReal capacity online.');
+    document.getElementById('stat11').textContent = 'Neural Boost+ ON';
+    document.getElementById('speed11').value = 185;
+    document.getElementById('clarity11').value = 100;
+    document.getElementById('humanness11').value = 100;
+    document.getElementById('clarityVal11').textContent = '100%';
+    document.getElementById('humannessVal11').textContent = '100%';
+}
+
+function duetMode11() {
+    document.getElementById('mode11').value = 'surround';
+    document.getElementById('voice11').value = 'v11_neural_duo';
+    document.getElementById('speed11').value = 165;
+    setEnvironment11('broadcast');
+    document.getElementById('stat11').textContent = '🎙️ Neural Duo';
+    speak();
+}
+
+function cinemaMode11() {
+    document.getElementById('mode11').value = 'cinema';
+    document.getElementById('voice11').value = 'v11_neural_cinematic';
+    document.getElementById('speed11').value = 145;
+    document.getElementById('pitch11').value = 95;
+    setEnvironment11('cinema');
+    document.getElementById('stat11').textContent = '🎬 Cinema Mode';
+    speak();
+}
+
+async function playCharacter11(type) {
+    stop();
+    const chars = {
+        hero: { text: 'I AM THE HERO', voice: 'v11_neural_prime', pitch: 1.0 },
+        dragon: { text: 'ROARRRR', voice: 'v8_dragon', pitch: 0.6 },
+        ghost: { text: 'BOOOO', voice: 'v11_neural_whisper', pitch: 1.3 }
+    };
+    const c = chars[type] || chars.hero;
+    document.getElementById('text11').value = c.text;
+    document.getElementById('voice11').value = c.voice;
+    speak();
+}
+
 // ===== V10 REAL NEURAL NETWORK =====
 
 class MiniNeuralNet {
@@ -2314,48 +2449,97 @@ class MiniNeuralNet {
     }
 }
 
+class NeuralNetV11 {
+    constructor() {
+        this.weights1 = Array(6).fill(0).map(() => Math.random() * 2 - 1);
+        this.bias1 = Array(6).fill(0).map(() => Math.random() * 2 - 1);
+        this.weights2 = Array(6).fill(0).map(() => [Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1]);
+        this.bias2 = [Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1];
+        this.memory = [0, 0];
+    }
+
+    activate(x) {
+        return Math.tanh(x);
+    }
+
+    predict(inputVal) {
+        const hidden = [];
+        for (let i = 0; i < 6; i++) {
+            const memoryMix = (this.memory[0] + this.memory[1]) * 0.35;
+            const sum = (inputVal * this.weights1[i]) + memoryMix + this.bias1[i];
+            hidden[i] = this.activate(sum);
+        }
+
+        const outputs = [0, 0, 0];
+        for (let j = 0; j < 3; j++) {
+            let sum = this.bias2[j];
+            for (let i = 0; i < 6; i++) {
+                sum += hidden[i] * this.weights2[i][j];
+            }
+            outputs[j] = this.activate(sum);
+        }
+
+        this.memory = [hidden[1], hidden[4]];
+
+        return {
+            pitchMod: 1 + (outputs[0] * 0.22),
+            durMod: 1 + (outputs[1] * 0.25),
+            energyMod: 1 + (outputs[2] * 0.12)
+        };
+    }
+}
+
 const neuralNet = new MiniNeuralNet();
-const neuralCanvas = document.getElementById('neuralCanvas');
-let neuralCtx = null;
+const neuralNetV11 = new NeuralNetV11();
+const neuralCanvases = {
+    v10: document.getElementById('neuralCanvas'),
+    v11: document.getElementById('neuralCanvas11')
+};
+const neuralCtxMap = { v10: null, v11: null };
 
 function initNeuralViz() {
-    if (neuralCanvas) neuralCtx = neuralCanvas.getContext('2d');
+    Object.entries(neuralCanvases).forEach(([key, canvas]) => {
+        if (canvas) neuralCtxMap[key] = canvas.getContext('2d');
+    });
 }
 
 function visualizeNeuralNet(active) {
-    if (!neuralCtx || currentVersion !== 'v10') return;
-    const w = neuralCanvas.width;
-    const h = neuralCanvas.height;
+    if (currentVersion !== 'v10' && currentVersion !== 'v11') return;
+    const canvas = neuralCanvases[currentVersion];
+    const ctx = neuralCtxMap[currentVersion];
+    if (!canvas || !ctx) return;
+    const w = canvas.width;
+    const h = canvas.height;
     
-    neuralCtx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-    neuralCtx.fillRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+    ctx.fillRect(0, 0, w, h);
     
     if (!active) return;
 
     // Draw "Neurons"
-    neuralCtx.strokeStyle = '#0078d4';
-    neuralCtx.lineWidth = 1;
-    neuralCtx.beginPath();
+    ctx.strokeStyle = currentVersion === 'v11' ? '#5b7cff' : '#0078d4';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
     
     // Fake connections animation
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
         let x1 = Math.random() * w;
         let y1 = Math.random() * h;
         let x2 = Math.random() * w;
         let y2 = Math.random() * h;
-        neuralCtx.moveTo(x1, y1);
-        neuralCtx.lineTo(x2, y2);
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
     }
-    neuralCtx.stroke();
+    ctx.stroke();
 
     // Glowing nodes
-    neuralCtx.fillStyle = '#00ff00';
-    for (let i = 0; i < 3; i++) {
+    ctx.fillStyle = currentVersion === 'v11' ? '#7bffdf' : '#00ff00';
+    for (let i = 0; i < 4; i++) {
         let x = Math.random() * w;
         let y = Math.random() * h;
-        neuralCtx.beginPath();
-        neuralCtx.arc(x, y, 2, 0, Math.PI * 2);
-        neuralCtx.fill();
+        ctx.beginPath();
+        ctx.arc(x, y, 2, 0, Math.PI * 2);
+        ctx.fill();
     }
 }
 
@@ -2372,6 +2556,24 @@ function createNeuralSource(ctx, freq) {
         const amp = 1 / Math.pow(i, 1.5); 
         real[i] = 0; // Cosine terms
         imag[i] = amp; // Sine terms
+    }
+    
+    const wave = ctx.createPeriodicWave(real, imag);
+    const osc = ctx.createOscillator();
+    osc.setPeriodicWave(wave);
+    osc.frequency.value = freq;
+    return osc;
+}
+
+function createNeuralSourceV11(ctx, freq) {
+    const size = 4096;
+    const real = new Float32Array(size);
+    const imag = new Float32Array(size);
+    
+    for (let i = 1; i < size; i++) {
+        const amp = 1 / Math.pow(i, 1.25);
+        real[i] = Math.sin(i * 0.05) * 0.05;
+        imag[i] = amp;
     }
     
     const wave = ctx.createPeriodicWave(real, imag);
